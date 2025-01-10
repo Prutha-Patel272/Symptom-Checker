@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnosis Result</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: black; /* Changed text color to black */
+            text-align: center;
+            background: linear-gradient(120deg, #85c1e9, #d1f2eb, #f5b7b1, #d5dbdb);
+            background-size: 400% 400%;
+            animation: aurora 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .result-box {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #0077ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Diagnosis Result</h1>
+    <div class="result-box">
+        <p>{{ diagnosis }}</p>
+        {% if precautions %}
+            <h2>Precautions:</h2>
+            <ul>
+                {% for precaution in precautions %}
+                    <li>{{ precaution }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if medicines %}
+            <h2>Medicines:</h2>
+            <ul>
+                {% for medicine in medicines %}
+                    <li>{{ medicine }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    <a href="/">Back to Symptom Checker</a>
+</body>
+</html>

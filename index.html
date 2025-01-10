@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom Checker</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: black;
+            text-align: center;
+            background: linear-gradient(120deg, #85c1e9, #d1f2eb, #f5b7b1, #d5dbdb);
+            background-size: 400% 400%;
+            animation: aurora 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes aurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .symptoms-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two symptoms per row */
+            gap: 10px;
+            width: 100%;
+            justify-items: center;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            width: 90%;
+            max-width: 200px;
+            text-align: center;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        label:hover {
+            background: rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        input[type="checkbox"]:checked + label {
+            background: rgba(0, 123, 255, 0.5);
+            color: white;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: white;
+            background: #0077ff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #0059cc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Symptom Checker</h1>
+    <form action="/diagnose" method="post">
+        <h2>Select your symptoms:</h2>
+        <div class="symptoms-container">
+            {% for symptom in symptoms %}
+                <input type="checkbox" id="symptom-{{ loop.index }}" name="symptoms-selector" value="{{ symptom }}">
+                <label for="symptom-{{ loop.index }}">
+                    {{ symptom }}
+                    {% if symptom == "fever" %}🌡️{% elif symptom == "headache" %}🤕{% elif symptom == "fatigue" %}😴{% elif symptom == "cough" %}🤧{% elif symptom == "shortness of breath" %}😮‍💨{% elif symptom == "loss of taste" %}👅{% elif symptom == "loss of smell" %}👃{% endif %}
+                </label>
+            {% endfor %}
+        </div>
+        <button type="submit">Diagnose</button>
+    </form>
+</body>
+</html>
