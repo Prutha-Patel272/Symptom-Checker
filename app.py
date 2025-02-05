@@ -2,7 +2,6 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-# Conditions and their symptoms
 conditions = {
     "Flu": ["fever", "cough", "body ache", "fatigue", "headache", "chills"],
     "Covid-19": ["fever", "cough", "fatigue", "shortness of breath", "loss of taste", "loss of smell"],
@@ -11,7 +10,6 @@ conditions = {
     "Stomach Bug": ["nausea", "vomiting", "diarrhea", "abdominal pain"],
 }
 
-# Implementing a basic Stack and Queue
 class Stack:
     def __init__(self):
         self.items = []
@@ -42,17 +40,15 @@ class Queue:
 
 @app.route('/')
 def index():
-    # Pass all symptoms to the index.html template
     all_symptoms = list({symptom for symptoms in conditions.values() for symptom in symptoms})
     return render_template('index.html', symptoms=all_symptoms)
 
 
 @app.route('/diagnose', methods=['POST'])
 def diagnose():
-    # Get the symptoms selected by the user
+
     user_symptoms = set(request.form.getlist('symptoms-selector'))
 
-    # Using Queue for symptoms processing and Stack for conditions
     symptom_queue = Queue()
     for symptom in user_symptoms:
         symptom_queue.enqueue(symptom)
@@ -60,7 +56,7 @@ def diagnose():
     condition_stack = Stack()
     condition_matches = {}
 
-    # Process symptoms using Queue
+
     while not symptom_queue.is_empty():
         symptom = symptom_queue.dequeue()
         for condition_name, condition_symptoms in conditions.items():
@@ -70,7 +66,6 @@ def diagnose():
                     condition_matches[condition_name] = 0
                 condition_matches[condition_name] += 1
 
-    # Determine the most likely condition using Stack
     most_likely_condition = None
     max_matches = 0
     while not condition_stack.is_empty():
@@ -79,7 +74,6 @@ def diagnose():
             most_likely_condition = condition_name
             max_matches = condition_matches[condition_name]
 
-    # Diagnosis result
     if most_likely_condition:
         diagnosis = f"The most likely condition is: {most_likely_condition}"
         condition_info = {
